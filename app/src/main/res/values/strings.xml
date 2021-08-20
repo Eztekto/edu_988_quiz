@@ -7,5 +7,6 @@
     <string name="question5">Луна это планета?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name= "answerTextView"></string>
+    <string name="showAnswer">Показать ответ</string>
+    <string name="answerTextView">Правильный ответ</string>
 </resources>
