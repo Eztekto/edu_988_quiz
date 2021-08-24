@@ -10,94 +10,128 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    Button yesBtn;
-    Button noBtn;
-    TextView questionTextView;
-    Button showAnswer;
-    Question[] questions = {
-            new Question(R.string.question1, true),
-            new Question(R.string.question2, true),
-            new Question(R.string.question3, false),
+public class MainActivity extends AppCompatActivity {
+    private Button yesBtn;
+    private Button noBtn;
+    private TextView questionTextView;
+    private Button showAnswer;
+
+    private final Question[] questions = {
+            new Question(R.string.question1, false),
+            new Question(R.string.question2, false),
+            new Question(R.string.question3, true),
             new Question(R.string.question4, true),
-            new Question(R.string.question5, false)
+            new Question(R.string.question5, false),
+
     };
-    int questionIndex = 0;
+
+    private final ArrayList <String> questionAnswers = new ArrayList<>();
+    private int correctAnswer = 0;
+    private int questionIndex = 0;
+
+    private  void checkIndex (String userAnswer){
+        questionAnswers.add(String.format("%s - вы ответили: %s", (String) questionTextView.getText(), userAnswer));
+        if (questionIndex == questions.length - 1){
+            Intent intent = new Intent(MainActivity.this, QuizResult.class);
+            intent.putExtra("userQuestionsAnswers", questionAnswers);
+            intent.putExtra("quantityCorrectAnswers", correctAnswer);
+            intent.putExtra("quantityQuestions", questions.length);
+            startActivity(intent);
+        } else {
+            questionIndex++;
+            questionTextView.setText(questions[questionIndex].getQuestionText());
+        }
+    }
+
+    private void checkAnswer (Boolean condition){
+        if(condition){
+            Toast.makeText(MainActivity.this, R.string.correct, Toast.LENGTH_SHORT).show();
+            correctAnswer++;
+        } else{
+            Toast.makeText(MainActivity.this, R.string.incorrect, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("SYSTEM INFO: ", "Вызван метод onCreate()");
+        Log.d("SYSTEM INFO", "Метода onCreate() запущен");
+
+        if (savedInstanceState != null) {
+            questionIndex = savedInstanceState.getInt("questionIndex", 0);
+        }
+
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState != null){
-            questionIndex = savedInstanceState.getInt("questionIndex");
-        }
-        yesBtn = findViewById(R.id.yesBtn);
-        noBtn = findViewById(R.id.noBtn);
         questionTextView = findViewById(R.id.questionTextView);
-        showAnswer = findViewById(R.id.showAnswer);
         questionTextView.setText(questions[questionIndex].getQuestionText());
+
+        yesBtn = findViewById(R.id.yesBtn);
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                checkAnswer(true);
+            public void onClick(View v) {
+                checkAnswer(questions[questionIndex].isAnswerTrue());
+                checkIndex("Да");
             }
         });
+
+        noBtn = findViewById(R.id.noBtn);
         noBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                checkAnswer(false);
+            public void onClick(View v) {
+                checkAnswer(!questions[questionIndex].isAnswerTrue());
+                checkIndex("Нет");
             }
+
         });
+
+        showAnswer = findViewById(R.id.showAnswer);
         showAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AnswerActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AnswerActivity.class );
                 intent.putExtra("answer", questions[questionIndex].isAnswerTrue());
                 startActivity(intent);
             }
         });
     }
 
-    public void checkAnswer(boolean btn){
-        if((questions[questionIndex].isAnswerTrue() && btn) || (!questions[questionIndex].isAnswerTrue() && !btn))
-            Toast.makeText(MainActivity.this, "Правильно!", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(MainActivity.this, "Не правильно!", Toast.LENGTH_SHORT).show();
-        questionIndex = (questionIndex+1)%questions.length;
-        questionTextView.setText(questions[questionIndex].getQuestionText());
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("SYSTEM INFO", "Метода onStart() запущен");
     }
 
     @Override
-    public void onStart(){
-        super.onStart();
-        Log.d("SYSTEM INFO: ", "Вызван метод onStart()");
-    }
-    @Override
-    public void onResume(){
+    protected void onResume() {
         super.onResume();
-        Log.d("SYSTEM INFO: ", "Вызван метод onResume()");
+        Log.d("SYSTEM INFO", "Метода onResume() запущен");
     }
+
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
-        super.onSaveInstanceState(savedInstanceState);
-        Log.d("SYSTEM INFO: ", "Вызван метод onSaveInstanceState()");
+    protected void onPause() {
+        super.onPause();
+        Log.d("SYSTEM INFO", "Метода onPause() запущен");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("SYSTEM INFO", "Метода onStop() запущен");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState (savedInstanceState);
+        Log.d("SYSTEM INFO", "Метода onSaveInstanceState() запущен");
         savedInstanceState.putInt("questionIndex", questionIndex);
     }
+
     @Override
-    public void onPause(){
-        super.onPause();
-        Log.d("SYSTEM INFO: ", "Вызван метод onPause()");
-    }
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d("SYSTEM INFO: ", "Вызван метод onStop()");
-    }
-    @Override
-    public void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        Log.d("SYSTEM INFO: ", "Вызван метод onDestroy()");
+        Log.d("SYSTEM INFO", "Метода onDestroy() запущен");
     }
 }

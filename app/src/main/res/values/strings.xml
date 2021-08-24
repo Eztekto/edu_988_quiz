@@ -1,12 +1,14 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="question1">Москва столица России?</string>
-    <string name="question2">2+2=4</string>
-    <string name="question3">5-3=3</string>
-    <string name="question4">Солнце это зведа?</string>
-    <string name="question5">Луна это планета?</string>
+    <string name="app_name">ShortQuiz</string>
+    <string name="question1">Ландкснехты - это немецкие чернорабочие?</string>
+    <string name="question2">Вторая мировая война законичилась в мае?</string>
+    <string name="question3">Абсолютный ноль равен -273,15 градуса Цельсия?</string>
+    <string name="question4">Один кг. стали, равен одному кг. перьев?</string>
+    <string name="question5">Плутон это планета?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="correct">Правильно!</string>
+    <string name="incorrect">Неверно.</string>
     <string name="showAnswer">Показать ответ</string>
     <string name="answerTextView">Правильный ответ</string>
 </resources>

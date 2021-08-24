@@ -7,6 +7,7 @@ import android.widget.TextView;
 public class AnswerActivity extends AppCompatActivity {
     private TextView answerTextView;
     private boolean isAnswerTrue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,8 +16,6 @@ public class AnswerActivity extends AppCompatActivity {
         isAnswerTrue = getIntent().getBooleanExtra("answer", false);
 
         answerTextView = findViewById(R.id.answerTextView);
-        answerTextView.setText(isAnswerTrue?R.string.yes:R.string.no);
-
-
+        answerTextView.setText(isAnswerTrue ? R.string.yes : R.string.no);
     }
 }
